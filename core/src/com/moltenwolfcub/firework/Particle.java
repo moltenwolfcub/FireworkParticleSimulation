@@ -4,29 +4,31 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.moltenwolfcub.firework.util.CachedSprites;
+import com.moltenwolfcub.firework.util.Config;
 
 public class Particle implements Poolable {
 
-    private FireworkGame game;
+    public FireworkGame game;
     public Sprite sprite;
-    private Vector2 pos;
-    // private Vector2 delta;
+    public Vector2 pos;
+    public Vector2 delta;
     public boolean used;
 
     public Particle() {
 		this.sprite = null;
         this.game = null;
         this.pos = new Vector2();
-        // this.delta = new Vector2();
+        this.delta = new Vector2();
         this.used = false;
     }
 
-    public Particle init(FireworkGame game, Integer x, Integer y, Integer dx, Integer dy) {
+    public Particle init(FireworkGame game, Float x, Float y, Float dx, Float dy, Integer r) {
         this.game = game;
         this.sprite = CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle");
+        this.sprite.setBounds(0, 0, r, r);
 
         this.pos = new Vector2(x, y);
-        // this.delta = new Vector2(dx, dy);
+        this.delta = new Vector2(dx, dy);
 
         this.used = true;
 
@@ -37,18 +39,27 @@ public class Particle implements Poolable {
     public void reset() {
         this.game = null;
         this.pos.set(0, 0);
-        // this.delta.set(0, 0);
+        this.delta.set(0, 0);
 
         this.used = false;
     }
 
 
 	public void tick() {
+        this.delta.set(this.delta.x*Config.AIR_RESISTANCE, this.delta.y*Config.AIR_RESISTANCE -Config.GRAVITY);
+
+        this.pos.add(delta);
         
-        sprite.setCenter(this.pos.x, this.pos.y);
+    	if (this.pos.x < 0 || this.pos.x > Config.WINDOW_WIDTH) {
+            this.used = false;
+        }
+    	if (this.pos.y < 0 || this.pos.y > Config.WINDOW_HEIGHT) {
+            this.used = false;
+        }
 	}
 
 	public void paint() {
+        sprite.setCenter(this.pos.x, this.pos.y);
         if (used) {
             sprite.draw(game.batch);
         }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
@@ -61,15 +62,42 @@ public class MainScreen extends InputAdapter implements Screen {
     }
 
     public void update() {
-
+        handleInput();
+        freeDeadParticles();
 
         for (Particle particle : activeParticles) {
             particle.tick();
+        }
+    }
+    private void handleInput() {
+        if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+            Vector3 mousePos = view.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            spawnParticles(mousePos.x, mousePos.y, 10);
+        }
+    }
+    private void spawnParticles(Float xPos, Float yPos, Integer amount) {
+
+        for (int i = 0; i < amount; i++) {
+            Double dir = this.game.random.nextDouble(-180, 180);
+            Double power = this.game.random.nextDouble(0, 10);
+
+            float dx = (float)(power*Math.sin(dir));
+            float dy = (float)(power*Math.cos(dir));
+
+            activeParticles.add(particlePool.obtain().init(game, xPos, yPos, dx, dy, 4));
+        }
+    }
+    private void freeDeadParticles() {
+        List<Particle> dead = new ArrayList<>();
+        for (Particle particle : activeParticles) {
             if (particle.used == false) {
-                activeParticles.remove(particle);
+                dead.add(particle);
                 particlePool.free(particle);
+                continue;
             }
         }
+        activeParticles.removeAll(dead);
+        
     }
 
     @Override
@@ -81,21 +109,6 @@ public class MainScreen extends InputAdapter implements Screen {
     public void resize(int width, int height) {
         view.update(width, height);
     }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-
-
-        Vector3 mousePos = view.unproject(new Vector3(screenX, screenY, 0));
-        Integer mouseX = (Integer)(int)mousePos.x;
-        Integer mouseY = (Integer)(int)mousePos.y;
-
-        activeParticles.add(particlePool.obtain().init(game, mouseX, mouseY, 0, 0));
-
-        return true;
-    }
-
 
     @Override
     public void pause() {
