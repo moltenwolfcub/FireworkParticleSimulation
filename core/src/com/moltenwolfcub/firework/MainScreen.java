@@ -72,7 +72,7 @@ public class MainScreen extends InputAdapter implements Screen {
     private void handleInput() {
         if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
             Vector3 mousePos = view.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            spawnParticles(mousePos.x, mousePos.y, 10);
+            spawnParticles(mousePos.x, mousePos.y, 30);
         }
     }
     private void spawnParticles(Float xPos, Float yPos, Integer amount) {
