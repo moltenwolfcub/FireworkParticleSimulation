@@ -22,6 +22,10 @@ public class MainScreen extends InputAdapter implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
+    // this probably needs to change to a better system in the future.
+    // especially when there are different kinds of fireworks
+    private Float previousHue = 0f;
+
     public MainScreen(FireworkGame game) {
 		this.game = game;
 
@@ -72,19 +76,24 @@ public class MainScreen extends InputAdapter implements Screen {
     private void handleInput() {
         if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
             Vector3 mousePos = view.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            spawnParticles(mousePos.x, mousePos.y, 30);
+            spawnParticles(mousePos.x, mousePos.y, 100);
         }
     }
     private void spawnParticles(Float xPos, Float yPos, Integer amount) {
 
         for (int i = 0; i < amount; i++) {
+            previousHue+=Config.HUE_CHANGE_SPEED;
+            if (previousHue>=360) {
+                previousHue=0f;
+            }
+
             Double dir = this.game.random.nextDouble(-180, 180);
             Double power = this.game.random.nextDouble(0, 10);
 
             float dx = (float)(power*Math.sin(dir));
             float dy = (float)(power*Math.cos(dir));
 
-            activeParticles.add(particlePool.obtain().init(game, xPos, yPos, dx, dy, 4));
+            activeParticles.add(particlePool.obtain().init(game, xPos, yPos, dx, dy, 4, previousHue));
         }
     }
     private void freeDeadParticles() {

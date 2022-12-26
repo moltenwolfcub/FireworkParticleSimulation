@@ -1,5 +1,6 @@
 package com.moltenwolfcub.firework;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -22,10 +23,11 @@ public class Particle implements Poolable {
         this.used = false;
     }
 
-    public Particle init(FireworkGame game, Float x, Float y, Float dx, Float dy, Integer r) {
+    public Particle init(FireworkGame game, Float x, Float y, Float dx, Float dy, Integer r, Float hue) {
         this.game = game;
         this.sprite = CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle");
         this.sprite.setBounds(0, 0, r, r);
+        this.sprite.setColor(Color.WHITE.fromHsv(hue,1f,1f));
 
         this.pos = new Vector2(x, y);
         this.delta = new Vector2(dx, dy);
@@ -59,8 +61,8 @@ public class Particle implements Poolable {
 	}
 
 	public void paint() {
-        sprite.setCenter(this.pos.x, this.pos.y);
         if (used) {
+            sprite.setCenter(this.pos.x, this.pos.y);
             sprite.draw(game.batch);
         }
 	}
