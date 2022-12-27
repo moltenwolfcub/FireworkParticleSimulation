@@ -25,7 +25,7 @@ public class Particle implements Poolable {
         this.pos = new Vector2();
         this.delta = new Vector2();
         this.used = false;
-        positionsToDraw = new ArrayList<>();
+        this.positionsToDraw = new ArrayList<>();
     }
 
     public Particle init(FireworkGame game, Float x, Float y, Float dx, Float dy, Integer r, Float hue) {
@@ -49,7 +49,7 @@ public class Particle implements Poolable {
         this.game = null;
         this.pos.set(0, 0);
         this.delta.set(0, 0);
-        positionsToDraw.clear();
+        this.positionsToDraw.clear();
 
         this.used = false;
     }
@@ -58,7 +58,7 @@ public class Particle implements Poolable {
 	public void tick() {
         this.delta.set(this.delta.x*Config.AIR_RESISTANCE, this.delta.y*Config.AIR_RESISTANCE -Config.GRAVITY);
 
-        Vector2 deltaNudge = new Vector2(delta);
+        Vector2 deltaNudge = new Vector2(this.delta);
         deltaNudge.scl(Config.PARTICLE_SPACING);
         for (float i = 0; i < 1/Config.PARTICLE_SPACING; i++) {
             this.pos.add(deltaNudge);
@@ -76,25 +76,25 @@ public class Particle implements Poolable {
 	}
 
 	public void paint() {
-        if (used) {
-            for (int i = 0; i < positionsToDraw.size(); i++) {
-                Vector2 drawPos = positionsToDraw.get(i);
-                sprite.setCenter(drawPos.x, drawPos.y);
+        if (this.used) {
+            for (int i = 0; i < this.positionsToDraw.size(); i++) {
+                Vector2 drawPos = this.positionsToDraw.get(i);
+                this.sprite.setCenter(drawPos.x, drawPos.y);
 
-                Integer size = positionsToDraw.size();
+                Integer size = this.positionsToDraw.size();
                 Integer inverseId = size-i;
                 Integer alphaId = Config.PARTICLE_TRAIL_LENGTH-inverseId;
 
                 if (alphaId < 0) {
-                    positionsToDraw.remove(i);
+                    this.positionsToDraw.remove(i);
                     continue;
                 }
 
                 Float alpha = 1.0f/Config.PARTICLE_TRAIL_LENGTH*alphaId;
 
-                sprite.setAlpha(alpha);
+                this.sprite.setAlpha(alpha);
 
-                sprite.draw(game.batch);
+                this.sprite.draw(this.game.batch);
                 
             }
         }

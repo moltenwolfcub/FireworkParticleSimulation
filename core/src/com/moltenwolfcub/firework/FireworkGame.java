@@ -13,9 +13,9 @@ public class FireworkGame extends Game {
 	
 	@Override
 	public void create() {
-		batch = new SpriteBatch();
-        spriteTextureAtlas = new TextureAtlas("main/atlases/spriteTextureMap.atlas");
-		random = new Random();
+		this.batch = new SpriteBatch();
+        this.spriteTextureAtlas = new TextureAtlas("main/atlases/spriteTextureMap.atlas");
+		this.random = new Random();
 
 		this.setScreen(new MainScreen(this));
 	}
@@ -27,6 +27,6 @@ public class FireworkGame extends Game {
 	
 	@Override
 	public void dispose() {
-		batch.dispose();
+		this.batch.dispose();
 	}
 }
