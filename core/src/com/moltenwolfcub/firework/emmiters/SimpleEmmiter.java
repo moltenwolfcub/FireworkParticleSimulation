@@ -9,20 +9,23 @@ import com.badlogic.gdx.utils.Pool;
 import com.moltenwolfcub.firework.Particle;
 import com.moltenwolfcub.firework.util.Config;
 
-public class SimpleEmmiter {
+public class SimpleEmmiter implements Emmiter {
     private Integer amount;
     private Random random;
     private Sprite spriteTemplate;
     private Float hue;      //TODO make a configurable colour system
+    private Pool<Particle> pool;
     
-    public SimpleEmmiter(Sprite texture, Integer spawnQuantity, Random rand) {
+    public SimpleEmmiter(Pool<Particle> particlePool, Sprite texture, Integer spawnQuantity, Random rand) {
         this.amount = spawnQuantity;
         this.random = rand;
         this.spriteTemplate = texture;
         this.hue = 0f;
+        this.pool = particlePool;
     }
 
-    public List<Particle> createParticles(Pool<Particle> particlePool, Float xPos, Float yPos) {
+    @Override
+    public List<Particle> createParticles(Float xPos, Float yPos) {
         List<Particle> newParticles = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
@@ -35,7 +38,7 @@ public class SimpleEmmiter {
             float dx = (float)(power*Math.sin(dir))+0;		//TODO configurable force applied to particles in x and y
             float dy = (float)(power*Math.cos(dir))+6;
 
-            newParticles.add(particlePool.obtain().init(new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, hue));	//TODO configure particle radius
+            newParticles.add(pool.obtain().init(new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, hue));	//TODO configure particle radius
         }
         return newParticles;
     }

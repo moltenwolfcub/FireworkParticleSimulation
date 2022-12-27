@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.moltenwolfcub.firework.emmiters.Emmiter;
 import com.moltenwolfcub.firework.emmiters.SimpleEmmiter;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
@@ -23,7 +24,7 @@ public class MainScreen implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
-    SimpleEmmiter emmiter;
+    Emmiter emmiter;
 
     public MainScreen(FireworkGame game) {
 		this.game = game;
@@ -43,6 +44,7 @@ public class MainScreen implements Screen {
 
 
         emmiter = new SimpleEmmiter(
+            particlePool,
             CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
             Config.PARTICLE_SPAWN_COUNT,
             this.game.random
@@ -80,7 +82,7 @@ public class MainScreen implements Screen {
     private void handleInput() {
         if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
             Vector3 mousePos = view.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            this.activeParticles.addAll(emmiter.createParticles(particlePool, mousePos.x, mousePos.y));
+            this.activeParticles.addAll(emmiter.createParticles(mousePos.x, mousePos.y));
         }
     }
     private void freeDeadParticles() {
