@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.moltenwolfcub.firework.emmiters.Emmiter;
 import com.moltenwolfcub.firework.emmiters.SimpleEmmiter;
-import com.moltenwolfcub.firework.emmiters.spawnColor.ListedSpawnColor;
+import com.moltenwolfcub.firework.emmiters.spawnColor.*;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
@@ -26,7 +26,7 @@ public class MainScreen implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
-    private Emmiter emmiter;
+    Emmiter emmiter;
 
     public MainScreen(FireworkGame game) {
 		this.game = game;
@@ -44,8 +44,79 @@ public class MainScreen implements Screen {
 
         this.activeParticles = new ArrayList<Particle>();
 
+        // emmiter = new SimpleEmmiter(
+        //     new RgbCycleSpawnColor(),
+        //     Config.PARTICLE_SPAWN_COUNT,
+        //     CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+        //     this.game.random,
+        //     particlePool
+        // );
+        // emmiter = new SimpleEmmiter(
+        //     new StaticSpawnColor(Color.SKY),
+        //     Config.PARTICLE_SPAWN_COUNT,
+        //     CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+        //     this.game.random,
+        //     particlePool
+        // );
+        // emmiter = new SimpleEmmiter(
+        //     new ShadedColorSpawn(
+        //         Color.SKY,
+        //         this.game.random,
+        //         0.5f, 1f,
+        //         0.8f, 1f
+        //     ),
+        //     Config.PARTICLE_SPAWN_COUNT,
+        //     CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+        //     this.game.random,
+        //     particlePool
+        // );
+        // emmiter = new SimpleEmmiter(
+        //     new ListedSpawnColor(this.game.random, Color.SKY, Color.PURPLE, Color.GOLDENROD, Color.CORAL),
+        //     Config.PARTICLE_SPAWN_COUNT,
+        //     CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+        //     this.game.random,
+        //     particlePool
+        // );
+        // emmiter = new SimpleEmmiter(
+        //     new RandomSpawnColor(
+        //         this.game.random,
+        //         new StaticSpawnColor(Color.OLIVE),
+        //         new ListedSpawnColor(this.game.random, Color.RED, Color.GOLD),
+        //         new RgbCycleSpawnColor(),
+        //         new ShadedColorSpawn(
+        //             Color.BLUE,
+        //             this.game.random,
+        //             0.5f, 1f,
+        //             0.8f, 1f
+        //         )
+        //     ),
+        //     Config.PARTICLE_SPAWN_COUNT,
+        //     CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+        //     this.game.random,
+        //     particlePool
+        // );
         emmiter = new SimpleEmmiter(
-            new ListedSpawnColor(this.game.random, Color.RED, Color.BLUE, Color.YELLOW),
+            new RandomSpawnColor(
+                this.game.random,
+                new ShadedColorSpawn(
+                    Color.RED,
+                    this.game.random,
+                    0.6f, 1f,
+                    0.5f, 1f
+                ),
+                new ShadedColorSpawn(
+                    Color.ROYAL,
+                    this.game.random,
+                    0.6f, 1f,
+                    0.5f, 1f
+                ),
+                new ShadedColorSpawn(
+                    Color.GOLD,
+                    this.game.random,
+                    0.6f, 1f,
+                    0.5f, 1f
+                )
+            ),
             Config.PARTICLE_SPAWN_COUNT,
             CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
             this.game.random,
