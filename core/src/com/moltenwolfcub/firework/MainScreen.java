@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -16,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
-public class MainScreen extends InputAdapter implements Screen {
+public class MainScreen implements Screen {
     private final FireworkGame game;
     private OrthographicCamera camera;
     private Viewport view;
@@ -41,8 +40,6 @@ public class MainScreen extends InputAdapter implements Screen {
         };
 
         this.activeParticles = new ArrayList<Particle>();
-
-		Gdx.input.setInputProcessor(this);
     }
 
     @Override
