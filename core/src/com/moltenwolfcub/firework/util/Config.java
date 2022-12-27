@@ -7,9 +7,9 @@ public class Config {
     public static final Float GRAVITY = 1.1f;
     public static final Float AIR_RESISTANCE = 0.97f;
 
-    public static final Float PARTICLE_SPACING = 0.2f;
+    public static final Float PARTICLE_SPACING = 0.15f;
     public static final Integer PARTICLE_TRAIL_LENGTH = 20;
-    public static final Integer PARTICLE_SPAWN_COUNT = 100;
+    public static final Integer PARTICLE_SPAWN_COUNT = 30;
 
-    public static final Float HUE_CHANGE_SPEED = 0.2f;
+    public static final Float HUE_CHANGE_SPEED = 0.3f;
 }
