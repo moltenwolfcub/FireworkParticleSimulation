@@ -25,14 +25,14 @@ public class Particle implements Poolable {
         this.positionsToDraw = new ArrayList<>();
     }
 
-    public Particle init(Sprite texture, Float x, Float y, Float dx, Float dy, Integer r, Float hue) {
+    public Particle init(Sprite texture, Float x, Float y, Float dx, Float dy, Integer r, Color color) {
         if (sprite != null) {
             System.out.println("init has been called multiple times in one run");
         }
 
         this.sprite = texture;
         this.sprite.setBounds(0, 0, r, r);
-        this.sprite.setColor(Color.WHITE.fromHsv(hue,1f,1f));
+        this.sprite.setColor(color);
 
         this.pos = new Vector2(x, y);
         this.delta = new Vector2(dx, dy);

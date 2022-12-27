@@ -7,21 +7,21 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Pool;
 import com.moltenwolfcub.firework.Particle;
-import com.moltenwolfcub.firework.util.Config;
+import com.moltenwolfcub.firework.emmiters.spawnColor.RgbCycleSpawnColor;
 
 public class SimpleEmmiter implements Emmiter {
     private Integer amount;
     private Random random;
     private Sprite spriteTemplate;
-    private Float hue;      //TODO make a configurable colour system
     private Pool<Particle> pool;
+    private RgbCycleSpawnColor spawnColor;
     
     public SimpleEmmiter(Pool<Particle> particlePool, Sprite texture, Integer spawnQuantity, Random rand) {
         this.amount = spawnQuantity;
         this.random = rand;
         this.spriteTemplate = texture;
-        this.hue = 0f;
         this.pool = particlePool;
+        this.spawnColor = new RgbCycleSpawnColor();
     }
 
     @Override
@@ -29,8 +29,6 @@ public class SimpleEmmiter implements Emmiter {
         List<Particle> newParticles = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
-            hue+=Config.HUE_CHANGE_SPEED;
-            hue = hue%360;
 
             Double dir = this.random.nextDouble(-180, 180);        //TODO make particle launch angle configureable
             Double power = this.random.nextDouble(0, 10);  //TODO make particle launch power configureable
@@ -38,7 +36,7 @@ public class SimpleEmmiter implements Emmiter {
             float dx = (float)(power*Math.sin(dir))+0;		//TODO configurable force applied to particles in x and y
             float dy = (float)(power*Math.cos(dir))+6;
 
-            newParticles.add(pool.obtain().init(new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, hue));	//TODO configure particle radius
+            newParticles.add(pool.obtain().init(new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, this.spawnColor.generateColor()));	//TODO configure particle radius
         }
         return newParticles;
     }
