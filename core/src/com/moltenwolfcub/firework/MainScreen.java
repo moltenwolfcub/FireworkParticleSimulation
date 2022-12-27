@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.moltenwolfcub.firework.emmiters.SimpleEmmiter;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
@@ -22,8 +23,7 @@ public class MainScreen implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
-    //TODO this probably needs to change to a better system in the future. especially when there are different kinds of fireworks
-    private Float previousHue = 0f;
+    SimpleEmmiter emmiter;
 
     public MainScreen(FireworkGame game) {
 		this.game = game;
@@ -40,6 +40,13 @@ public class MainScreen implements Screen {
         };
 
         this.activeParticles = new ArrayList<Particle>();
+
+
+        emmiter = new SimpleEmmiter(
+            CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+            Config.PARTICLE_SPAWN_COUNT,
+            this.game.random
+        );
     }
 
     @Override
@@ -73,27 +80,7 @@ public class MainScreen implements Screen {
     private void handleInput() {
         if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
             Vector3 mousePos = view.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            this.spawnParticles(mousePos.x, mousePos.y, Config.PARTICLE_SPAWN_COUNT);
-        }
-    }
-    private void spawnParticles(Float xPos, Float yPos, Integer amount) {
-
-        for (int i = 0; i < amount; i++) {
-            this.previousHue+=Config.HUE_CHANGE_SPEED;
-            if (this.previousHue>=360) {
-                this.previousHue=0f;
-            }
-
-            Double dir = this.game.random.nextDouble(-180, 180);        //TODO make particle launch angle configureable
-            Double power = this.game.random.nextDouble(0, 10);  //TODO make particle launch power configureable
-
-            float dx = (float)(power*Math.sin(dir))+0;
-            float dy = (float)(power*Math.cos(dir))+6;		//TODO configurable force applied to particles in x and y
-
-            this.activeParticles.add(this.particlePool.obtain().init(
-                CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
-                xPos, yPos, dx, dy, 4, this.previousHue
-            ));	//TODO configure particle radius
+            this.activeParticles.addAll(emmiter.createParticles(particlePool, mousePos.x, mousePos.y));
         }
     }
     private void freeDeadParticles() {
@@ -106,7 +93,6 @@ public class MainScreen implements Screen {
             }
         }
         this.activeParticles.removeAll(dead);
-        
     }
 
     @Override
