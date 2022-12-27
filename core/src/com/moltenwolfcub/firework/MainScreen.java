@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.moltenwolfcub.firework.emmiters.Emmiter;
 import com.moltenwolfcub.firework.emmiters.SimpleEmmiter;
-import com.moltenwolfcub.firework.emmiters.spawnColor.RgbCycleSpawnColor;
+import com.moltenwolfcub.firework.emmiters.spawnColor.ListedSpawnColor;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
@@ -25,7 +26,7 @@ public class MainScreen implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
-    Emmiter emmiter;
+    private Emmiter emmiter;
 
     public MainScreen(FireworkGame game) {
 		this.game = game;
@@ -44,7 +45,7 @@ public class MainScreen implements Screen {
         this.activeParticles = new ArrayList<Particle>();
 
         emmiter = new SimpleEmmiter(
-            new RgbCycleSpawnColor(),
+            new ListedSpawnColor(this.game.random, Color.RED, Color.BLUE, Color.YELLOW),
             Config.PARTICLE_SPAWN_COUNT,
             CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
             this.game.random,
