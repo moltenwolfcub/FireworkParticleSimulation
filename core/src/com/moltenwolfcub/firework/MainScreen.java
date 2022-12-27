@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.moltenwolfcub.firework.emmiters.Emmiter;
 import com.moltenwolfcub.firework.emmiters.SimpleEmmiter;
+import com.moltenwolfcub.firework.emmiters.spawnColor.RgbCycleSpawnColor;
 import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
@@ -42,12 +43,12 @@ public class MainScreen implements Screen {
 
         this.activeParticles = new ArrayList<Particle>();
 
-
         emmiter = new SimpleEmmiter(
-            particlePool,
-            CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+            new RgbCycleSpawnColor(),
             Config.PARTICLE_SPAWN_COUNT,
-            this.game.random
+            CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+            this.game.random,
+            particlePool
         );
     }
 

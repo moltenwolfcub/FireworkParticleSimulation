@@ -7,21 +7,21 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Pool;
 import com.moltenwolfcub.firework.Particle;
-import com.moltenwolfcub.firework.emmiters.spawnColor.RgbCycleSpawnColor;
+import com.moltenwolfcub.firework.emmiters.spawnColor.SpawnColor;
 
 public class SimpleEmmiter implements Emmiter {
     private Integer amount;
     private Random random;
     private Sprite spriteTemplate;
     private Pool<Particle> pool;
-    private RgbCycleSpawnColor spawnColor;
+    private SpawnColor spawnColor;
     
-    public SimpleEmmiter(Pool<Particle> particlePool, Sprite texture, Integer spawnQuantity, Random rand) {
+    public SimpleEmmiter(SpawnColor SpawnColor, Integer spawnQuantity, Sprite texture, Random rand, Pool<Particle> particlePool) {
         this.amount = spawnQuantity;
         this.random = rand;
         this.spriteTemplate = texture;
         this.pool = particlePool;
-        this.spawnColor = new RgbCycleSpawnColor();
+        this.spawnColor = SpawnColor;
     }
 
     @Override
