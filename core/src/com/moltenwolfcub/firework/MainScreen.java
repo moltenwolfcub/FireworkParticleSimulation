@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
 public class MainScreen extends InputAdapter implements Screen {
@@ -58,7 +59,7 @@ public class MainScreen extends InputAdapter implements Screen {
 
         this.game.batch.begin();
         for (Particle particle : this.activeParticles) {
-            particle.paint();
+            particle.paint(this.game.batch);
         }
         this.game.batch.end();
 
@@ -92,7 +93,10 @@ public class MainScreen extends InputAdapter implements Screen {
             float dx = (float)(power*Math.sin(dir))+0;
             float dy = (float)(power*Math.cos(dir))+6;		//TODO configurable force applied to particles in x and y
 
-            this.activeParticles.add(this.particlePool.obtain().init(this.game, xPos, yPos, dx, dy, 4, this.previousHue));	//TODO configure particle radius
+            this.activeParticles.add(this.particlePool.obtain().init(
+                CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle"),
+                xPos, yPos, dx, dy, 4, this.previousHue
+            ));	//TODO configure particle radius
         }
     }
     private void freeDeadParticles() {

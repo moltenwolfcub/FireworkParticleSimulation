@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.moltenwolfcub.firework.util.CachedSprites;
 import com.moltenwolfcub.firework.util.Config;
 
 public class Particle implements Poolable {
-
-    public FireworkGame game;
     public Sprite sprite;
     public Vector2 pos;
     public Vector2 delta;
@@ -21,16 +19,14 @@ public class Particle implements Poolable {
 
     public Particle() {
 		this.sprite = null;
-        this.game = null;
         this.pos = new Vector2();
         this.delta = new Vector2();
         this.used = false;
         this.positionsToDraw = new ArrayList<>();
     }
 
-    public Particle init(FireworkGame game, Float x, Float y, Float dx, Float dy, Integer r, Float hue) {
-        this.game = game;
-        this.sprite = CachedSprites.getSprite(this.game.spriteTextureAtlas, "particle");
+    public Particle init(Sprite texture, Float x, Float y, Float dx, Float dy, Integer r, Float hue) {
+        this.sprite = texture;
         this.sprite.setBounds(0, 0, r, r);
         this.sprite.setColor(Color.WHITE.fromHsv(hue,1f,1f));
 
@@ -46,7 +42,6 @@ public class Particle implements Poolable {
     @Override
     public void reset() {
         this.sprite = null;
-        this.game = null;
         this.pos.set(0, 0);
         this.delta.set(0, 0);
         this.positionsToDraw.clear();
@@ -75,7 +70,7 @@ public class Particle implements Poolable {
 
 	}
 
-	public void paint() {
+	public void paint(Batch batch) {
         if (this.used) {
             for (int i = 0; i < this.positionsToDraw.size(); i++) {
                 Vector2 drawPos = this.positionsToDraw.get(i);
@@ -89,13 +84,10 @@ public class Particle implements Poolable {
                     this.positionsToDraw.remove(i);
                     continue;
                 }
-
                 Float alpha = 1.0f/Config.PARTICLE_TRAIL_LENGTH*alphaId;
 
                 this.sprite.setAlpha(alpha);
-
-                this.sprite.draw(this.game.batch);
-                
+                this.sprite.draw(batch);
             }
         }
 	}
