@@ -22,8 +22,7 @@ public class MainScreen extends InputAdapter implements Screen {
     private Pool<Particle> particlePool;
     private List<Particle> activeParticles;
 
-    // this probably needs to change to a better system in the future.
-    // especially when there are different kinds of fireworks
+    //TODO this probably needs to change to a better system in the future. especially when there are different kinds of fireworks
     private Float previousHue = 0f;
 
     public MainScreen(FireworkGame game) {
@@ -87,13 +86,13 @@ public class MainScreen extends InputAdapter implements Screen {
                 previousHue=0f;
             }
 
-            Double dir = this.game.random.nextDouble(-180, 180);
-            Double power = this.game.random.nextDouble(0, 10);
+            Double dir = this.game.random.nextDouble(-180, 180);        //TODO make particle launch angle configureable
+            Double power = this.game.random.nextDouble(0, 10);  //TODO make particle launch power configureable
 
-            float dx = (float)(power*Math.sin(dir));
-            float dy = (float)(power*Math.cos(dir));
+            float dx = (float)(power*Math.sin(dir))+0;
+            float dy = (float)(power*Math.cos(dir))+6;		//TODO configurable force applied to particles in x and y
 
-            activeParticles.add(particlePool.obtain().init(game, xPos, yPos, dx, dy, 4, previousHue));
+            activeParticles.add(particlePool.obtain().init(game, xPos, yPos, dx, dy, 4, previousHue));	//TODO configure particle radius
         }
     }
     private void freeDeadParticles() {
