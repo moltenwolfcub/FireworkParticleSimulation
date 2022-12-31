@@ -11,5 +11,7 @@ public class Config {
     public static final Integer PARTICLE_TRAIL_LENGTH = 20;
     public static final Integer PARTICLE_SPAWN_COUNT = 30;
 
+    public static final Integer EMMITER_RANDOMNESS = 10;
+
     public static final Float HUE_CHANGE_SPEED = 0.3f;
 }

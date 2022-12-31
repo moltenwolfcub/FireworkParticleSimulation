@@ -16,7 +16,7 @@ public class SimpleEmmiter implements Emmiter {
     private Pool<Particle> pool;
     private SpawnColor spawnColor;
     
-    public SimpleEmmiter(SpawnColor SpawnColor, Integer spawnQuantity, Sprite texture, Random rand, Pool<Particle> particlePool) {
+    public SimpleEmmiter(Integer spawnQuantity, SpawnColor SpawnColor, Sprite texture, Random rand, Pool<Particle> particlePool) {
         this.amount = spawnQuantity;
         this.random = rand;
         this.spriteTemplate = texture;
