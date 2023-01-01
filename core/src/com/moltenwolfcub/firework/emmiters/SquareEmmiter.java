@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.moltenwolfcub.firework.Particle;
 import com.moltenwolfcub.firework.emmiters.spawnColor.SpawnColor;
+import com.moltenwolfcub.firework.particle.Particle;
 import com.moltenwolfcub.firework.util.Config;
 
 public class SquareEmmiter implements Emmiter {
     private Random random;
-    private Sprite spriteTemplate;
     private Pool<Particle> pool;
     private SpawnColor spawnColor;
     private Integer radius;
 
-    public SquareEmmiter(Integer radius,SpawnColor SpawnColor, Sprite texture, Random rand, Pool<Particle> particlePool) {
+    public SquareEmmiter(Integer radius,SpawnColor SpawnColor, Random rand, Pool<Particle> particlePool) {
         this.random = rand;
-        this.spriteTemplate = texture;
         this.pool = particlePool;
         this.spawnColor = SpawnColor;
         this.radius = radius;
@@ -31,9 +28,7 @@ public class SquareEmmiter implements Emmiter {
         List<Particle> newParticles = new ArrayList<>();
         for (Vector2 point : generateShape(new Vector2(xPos, yPos), this.radius, this.radius/10, Config.EMMITER_RANDOMNESS)) {
 
-            newParticles.add(pool.obtain().init(
-                new Sprite(spriteTemplate), point.x, point.y, 0f, 0f, 4, this.spawnColor.generateColor()
-            ));
+            newParticles.add(pool.obtain().init(point.x, point.y, 0f, 0f));//new Sprite(spriteTemplate), point.x, point.y, 0f, 0f, 4, this.spawnColor.generateColor()));
         }
         return newParticles;
     }

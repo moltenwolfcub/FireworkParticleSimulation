@@ -2,7 +2,7 @@ package com.moltenwolfcub.firework.emmiters;
 
 import java.util.List;
 
-import com.moltenwolfcub.firework.Particle;
+import com.moltenwolfcub.firework.particle.Particle;
 
 public interface Emmiter {
 

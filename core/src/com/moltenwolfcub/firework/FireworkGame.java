@@ -7,14 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class FireworkGame extends Game {
+    public static TextureAtlas spriteTextureAtlas;
+
 	public SpriteBatch batch;
-    public TextureAtlas spriteTextureAtlas;
 	public Random random;
 	
 	@Override
 	public void create() {
+		spriteTextureAtlas = new TextureAtlas("main/atlases/spriteTextureMap.atlas");
+		
 		this.batch = new SpriteBatch();
-        this.spriteTextureAtlas = new TextureAtlas("main/atlases/spriteTextureMap.atlas");
 		this.random = new Random();
 
 		this.setScreen(new MainScreen(this));

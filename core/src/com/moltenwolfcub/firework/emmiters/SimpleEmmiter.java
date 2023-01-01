@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Pool;
-import com.moltenwolfcub.firework.Particle;
 import com.moltenwolfcub.firework.emmiters.spawnColor.SpawnColor;
+import com.moltenwolfcub.firework.particle.Particle;
 
 public class SimpleEmmiter implements Emmiter {
     private Integer amount;
     private Random random;
-    private Sprite spriteTemplate;
     private Pool<Particle> pool;
     private SpawnColor spawnColor;
     
-    public SimpleEmmiter(Integer spawnQuantity, SpawnColor SpawnColor, Sprite texture, Random rand, Pool<Particle> particlePool) {
+    public SimpleEmmiter(Integer spawnQuantity, SpawnColor SpawnColor, Random rand, Pool<Particle> particlePool) {
         this.amount = spawnQuantity;
         this.random = rand;
-        this.spriteTemplate = texture;
         this.pool = particlePool;
         this.spawnColor = SpawnColor;
     }
@@ -36,7 +33,7 @@ public class SimpleEmmiter implements Emmiter {
             float dx = (float)(power*Math.sin(dir))+0;		//TODO configurable force applied to particles in x and y
             float dy = (float)(power*Math.cos(dir))+6;
 
-            newParticles.add(pool.obtain().init(new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, this.spawnColor.generateColor()));	//TODO configure particle radius
+            newParticles.add(pool.obtain().init(xPos, yPos, dx, dy));//new Sprite(spriteTemplate), xPos, yPos, dx, dy, 4, this.spawnColor.generateColor()));	//TODO configure particle radius
         }
         return newParticles;
     }
